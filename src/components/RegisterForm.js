@@ -135,14 +135,14 @@ const RegisterForm = () => {
                 <span className='authentication__form--error'>{confirmPasswordError}</span>
             </div>
 
-            <div className='authentication__form--terms'>
+            <div className='authentication__form--terms margin-top-medium'>
                     <span className='authentication__form--terms_text'>By signing up, I agree to CAROMOTO's </span>
                     <a className='authentication__form--terms_link'>Terms & Conditions</a>
                     <span className='authentication__form--terms_text'> and </span>
                     <a className='authentication__form--terms_link'>Privacy policy</a>
             </div>
 
-            <button className='button button-blue' type='submit'>{t('Sign up')}</button>
+            <button className='button button-blue margin-top-medium' type='submit'>{t('Sign up')}</button>
         </form>
     );
 };

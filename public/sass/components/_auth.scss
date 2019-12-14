@@ -70,6 +70,30 @@
         margin: 6rem auto 0;
         max-width: 44rem;
 
+        &--controls {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.6rem;
+
+            &-forgot {
+                color: $blue;
+                cursor: pointer;
+            }
+
+            &-remember {
+
+                &_text {
+                    cursor: pointer;
+                }
+
+                &_switch {
+                    position: absolute;
+                    top: 2px;
+                    margin-left: 1rem;
+                }
+            }
+        }
+
         &--group {
             display: flex;
             flex-direction: column;
@@ -108,7 +132,6 @@
             font-weight: 100;
             line-height: 1.7;
             text-align: left;
-            margin: 5rem 0;
 
             &_text {
                 color: $gray;

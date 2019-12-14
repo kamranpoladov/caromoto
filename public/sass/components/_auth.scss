@@ -1,4 +1,4 @@
-.authentication-form {
+.authentication {
     width: 100%;
     display: block;
     text-align: center;
@@ -11,7 +11,7 @@
         line-height: 1;
         text-transform: uppercase;
         padding: 2.1rem 1.2rem;
-        color: #868686;
+        color: $gray;
         max-width: 44rem;
         margin: 0 auto -2.5rem;
         background-color: white;
@@ -31,7 +31,7 @@
             }
 
             &__border {
-                border-bottom: .5rem solid #3497FD;
+                border-bottom: .5rem solid $blue;
                 opacity: 0;
                 padding-top: 9%;
                 transition: opacity .3s ease;
@@ -53,7 +53,7 @@
             }
 
             &__border {
-                border-bottom: .5rem solid #3497FD;
+                border-bottom: .5rem solid $blue;
                 opacity: 0;
                 padding-top: 9%;
                 transition: opacity .3s ease;
@@ -64,9 +64,60 @@
             }
         }
     }
-}
 
-form {
-    background-color: white;
-    margin-top: 5rem;
+    &__form {
+        background-color: white;
+        margin: 6rem auto 0;
+        max-width: 44rem;
+
+        &--group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2rem;
+
+            &-text {
+                color: $blue;
+                font-size: 1.4rem;
+                text-align: left;
+            }
+
+            &-input {
+                border: none;
+                border-bottom: 1px solid $gray;
+                outline: none;
+                height: 3.2rem;
+                line-height: 1;
+                font-size: 1.6rem;
+
+                &_red {
+                    border-color: $red;
+                }
+            }
+        }
+
+        &--error {
+            text-align: left;
+            font-size: 1.2rem;
+            color: $red;
+            margin-top: .5rem;
+        }
+
+        &--terms {
+            width: 100%;
+            font-size: 1.4rem;
+            font-weight: 100;
+            line-height: 1.7;
+            text-align: left;
+            margin: 5rem 0;
+
+            &_text {
+                color: $gray;
+            }
+
+            &_link {
+                color: $blue;
+                cursor: pointer;
+            }
+        }
+    }
 }

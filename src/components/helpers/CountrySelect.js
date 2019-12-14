@@ -1,10 +1,11 @@
 import React from 'react';
 
 const CountrySelect = () => (
-    <div>
-        <label>Country</label>    
-        <select id="country" name="country">
-            <option value="Afghanistan">Afghanistan</option>
+    <div className='authentication__form--group'>
+        <label className='authentication__form--group-text' htmlFor='country'>Country</label>
+        <input className='authentication__form--group-input' type='text' name='country' list='country'/>
+        <datalist id='country' name='country'>
+            <option value='Afghanistan'>Afghanistan</option>
             <option value="Åland Islands">Åland Islands</option>
             <option value="Albania">Albania</option>
             <option value="Algeria">Algeria</option>
@@ -248,7 +249,7 @@ const CountrySelect = () => (
             <option value="Yemen">Yemen</option>
             <option value="Zambia">Zambia</option>
             <option value="Zimbabwe">Zimbabwe</option>
-        </select>
+        </datalist>
     </div>
 );
 

@@ -13,7 +13,7 @@ const AuthenticationForm = () => {
     }
 
     return (
-        <div className='authentication'>
+        <div className='authentication margin-top-huge'>
             <ul className='authentication__tabs'>
                 <li 
                     className={

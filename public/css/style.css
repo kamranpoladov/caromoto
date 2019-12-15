@@ -31,6 +31,12 @@ body {
   padding-right: .6rem;
   padding-left: .6rem; }
 
+.margin-top-huge {
+  margin-top: 15rem !important; }
+
+.margin-top-big {
+  margin-top: 10rem !important; }
+
 .margin-top-medium {
   margin-top: 5rem !important; }
 
@@ -165,12 +171,15 @@ body {
       background-color: #3497FD; }
 
 .header {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  transition: top 1s;
   padding: 1.5rem;
   font-size: 1.4rem;
   color: black;
-  margin-bottom: 1rem; }
+  background-color: white; }
   .header__top {
     display: flex;
     justify-content: space-between;

@@ -9,7 +9,7 @@ const Header = () => {
     const { t } = useTranslation();
 
     return (
-        <header className='header'>
+        <header id='header' className='header'>
             <div className='header__top'>
                 <LanguageForm />
                 <div className='header__top--signin'>

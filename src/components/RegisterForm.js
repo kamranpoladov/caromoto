@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import CountrySelect from './helpers/CountrySelect';
 import { useTranslation } from 'react-i18next';
-import validator from 'validator';
 import axios from 'axios';
 import API from '../utilities/api';
+import { validateEmail, validatePassword, validateConfirmPassword } from '../utilities/validation';
 
-const RegisterForm = () => {
+const RegisterForm = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -15,58 +15,51 @@ const RegisterForm = () => {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
+    const isDisabled = (email && password && confirmPassword) ? (!!emailError || !!passwordError || !!confirmPasswordError) : true;
     const { t } = useTranslation();
-
     const url = `${API}/user/register`;
 
     const onEmailChange = ({ target }) => {
         const { value } = target;
-        if (validator.isEmail(value)) {
-            setEmailError('');
-        } else if (!value) {
-            setEmailError('Please enter your email address.');
-        } else {
-            setEmailError('Invalid email format.');
-        }
+        setEmailError(validateEmail(value));
         setEmail(value);
     };
 
     const onPasswordChange = ({ target }) => {
         const { value } = target;
-        if (validator.isLength(value, {min: 6, max: undefined}))  {
-            setPasswordError('');
-        } else {
-            setPasswordError('The password must be at least 6 characters long.');
-        }
+        setPasswordError(validatePassword(value));
         setPassword(value);
     };
 
     const onConfirmPasswordChange = ({ target }) => {
         const { value } = target;
-        if (validator.equals(password, value)) {
-            setConfirmPasswordError('');
-        } else {
-            setConfirmPasswordError('The password and confirmation password do not match.');
-        }
+        setConfirmPasswordError(validateConfirmPassword(password, value));
         setConfirmPassword(value);
     };
 
     const register = async (e) => {
         e.preventDefault();
 
-        const data = {
-            email,
-            password,
-            first_name: firstName,
-            last_name: lastName
-        };
+        let data = new FormData();
+        data.set('first_name', firstName);
+        data.set('last_name', lastName)
+        data.set('email', email);
+        data.set('password', password);
 
-        const jsonData = JSON.stringify(data);
+        const response = await axios.post(url, data);
 
-        console.log(jsonData);
-
-        const response = await axios.post(url, jsonData);
-        console.log(response);
+        if (response.data.error === 0) {
+            console.log('All good');
+            props.redirect();
+        } else if (response.data.error === 1) {
+            console.log('Email error');
+        } else if (response.data.error === 2) {
+            console.log('Password error');
+        } else if (response.data.error === 3) {
+            console.log('Same email');
+        } else if (response.data.error === 4 || response.data.error === 100) {
+            console.log('Internal error');
+        }
     };
 
     return (
@@ -142,7 +135,7 @@ const RegisterForm = () => {
                     <a className='authentication__form--terms_link'>Privacy policy</a>
             </div>
 
-            <button className='button button-blue margin-top-medium' type='submit'>{t('Sign up')}</button>
+            <button disabled={isDisabled} className='button button-blue margin-top-medium' type='submit'>{t('Sign up')}</button>
         </form>
     );
 };

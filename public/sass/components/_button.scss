@@ -9,6 +9,11 @@
     outline: none;
     cursor: pointer;
 
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
     &-blue {
         width: 100%;
         background-color: rgba(red($blue), green($blue), blue($blue), 0.9);
@@ -16,7 +21,7 @@
         border-radius: 10rem;
         letter-spacing: 3px;
 
-        &:hover {
+        &:hover :not(:disabled) {
             background-color: $blue;
         }
     }

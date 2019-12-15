@@ -3,29 +3,56 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import API from '../utilities/api';
 import Switch from 'react-switch';
+import cookie from 'js-cookie';
+import { validateEmail, validatePassword } from '../utilities/validation';
 
-const SigninForm = () => {
+const SigninForm = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [signInError, setSignInError] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
 
     const { t } = useTranslation();
-
     const url = `${API}/user/login`;
+
+    const onEmailChange = ({ target }) => {
+        const { value } = target;
+        setEmailError(validateEmail(value));
+        setEmail(value);
+    };
+
+    const onPasswordChange = ({ target }) => {
+        const { value } = target;
+        setPasswordError(validatePassword(value));
+        setPassword(value);
+    };
 
     const signIn = async (e) => {
         e.preventDefault();
 
-        const data = {
-            email,
-            password
-        };
+        let data = new FormData();
+        data.set('email', email);
+        data.set('password', password);
 
-        const jsonData = JSON.stringify(data);
+        const response = await axios.post(url, data);
 
-        const response = await axios.post(url, jsonData);
-
-        console.log(response);
+        if (response.data.error === 0) {
+            cookie.set('Access token', response.data.access_token);
+        } else if (response.data.error === 1) {
+            console.log('Email error');
+        } else if (response.data.error === 2) {
+            console.log('Password error');
+        } else if (response.data.error === 3) {
+            console.log('User not found');
+        } else if (response.data.error === 4) {
+            console.log('User is blocked');
+        } else if (response.data.error === 5) {
+            setSignInError('Failed to login. Wrong email or password.');
+        } else {
+            console.log('Internal server error');
+        }
     }
 
     return (
@@ -37,8 +64,9 @@ const SigninForm = () => {
                     type='email' 
                     name='email'
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)} 
+                    onChange={onEmailChange} 
                 />
+                <span className='authentication__form--error'>{emailError}</span>
             </div>
             <div className='authentication__form--group'>
                 <label className='authentication__form--group-text' htmlFor='password'>{t('Password')}</label>
@@ -47,8 +75,9 @@ const SigninForm = () => {
                     type='password' 
                     name='password'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)} 
+                    onChange={onPasswordChange} 
                 />
+                <span className='authentication__form--error'>{passwordError}</span>
             </div>
             <div className='authentication__form--controls'>
                 <a className='authentication__form--controls-forgot'>Forgot password?</a>
@@ -67,10 +96,14 @@ const SigninForm = () => {
                         offHandleColor='#868686'
                         handleDiameter={15}
                         height={10}
-                        width={25} />
+                        width={25} 
+                    />
                 </div>
             </div>
-            <button type='submit' className='button button-blue margin-top-medium'>Sign in</button>
+            <div className='authentication__form--errors'>
+                <span>{signInError}</span>
+            </div>
+            <button type='submit' className='button button-blue margin-top-small'>Sign in</button>
         </form>
     );
 }

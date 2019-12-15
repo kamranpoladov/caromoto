@@ -142,5 +142,13 @@
                 cursor: pointer;
             }
         }
+
+        &--errors {
+            height: 2rem;
+            color: $red;
+            font-size: 1.4rem;
+            text-align: left;
+            margin-top: 1.5rem;
+        }
     }
 }

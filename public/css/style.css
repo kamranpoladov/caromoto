@@ -34,6 +34,9 @@ body {
 .margin-top-medium {
   margin-top: 5rem !important; }
 
+.margin-top-small {
+  margin-top: 3rem !important; }
+
 .authentication {
   width: 100%;
   display: block;
@@ -132,6 +135,12 @@ body {
       .authentication__form--terms_link {
         color: #3497FD;
         cursor: pointer; }
+    .authentication__form--errors {
+      height: 2rem;
+      color: #f44336;
+      font-size: 1.4rem;
+      text-align: left;
+      margin-top: 1.5rem; }
 
 .button {
   text-transform: uppercase;
@@ -143,13 +152,16 @@ body {
   line-height: 1.3;
   outline: none;
   cursor: pointer; }
+  .button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65; }
   .button-blue {
     width: 100%;
     background-color: rgba(52, 151, 253, 0.9);
     min-height: 4rem;
     border-radius: 10rem;
     letter-spacing: 3px; }
-    .button-blue:hover {
+    .button-blue:hover :not(:disabled) {
       background-color: #3497FD; }
 
 .header {

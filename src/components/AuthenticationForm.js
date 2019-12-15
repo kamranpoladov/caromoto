@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import SigninForm from './SigninForm';
 import RegisterForm from './RegisterForm';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'antd';
 
 const AuthenticationForm = () => {
     const [tab, setTab] = useState('signin');
 
     const { t } = useTranslation();
+
+    const redirect = () => {
+        setTab('signin');
+    }
 
     return (
         <div className='authentication'>
@@ -47,7 +50,7 @@ const AuthenticationForm = () => {
             </ul>
             <hr/>
             {tab === 'signin' && <SigninForm />}
-            {tab === 'register' && <RegisterForm />}
+            {tab === 'register' && <RegisterForm redirect={redirect} />}
         </div>
     );
 };

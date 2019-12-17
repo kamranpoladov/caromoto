@@ -40,6 +40,7 @@ const SigninForm = (props) => {
 
         if (response.data.error === 0) {
             cookie.set('Access token', response.data.access_token);
+            cookie.set('Refresh token', response.data.refresh_token);
         } else if (response.data.error === 1) {
             console.log('Email error');
         } else if (response.data.error === 2) {

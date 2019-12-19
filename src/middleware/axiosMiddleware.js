@@ -14,7 +14,6 @@ service.register({
         return response;
     },
     onResponseError(error) {
-        console.log('Error1', error);
         const url = `${API}/user/refreshtoken`;
         let data = new FormData();
         data.set('access_token', cookies.get('Access token'));
@@ -23,12 +22,16 @@ service.register({
             .then((response) => {
                 if (response.data.error === 0) {
                     console.log('401 resolved');
+                    cookies.set('Access token', response.data.access_token);
+                    cookies.set('Refresh token', response.data.refresh_token);
+                    sessionStorage.setItem('tokenIssueTime', Date.now());
                     return response;
                 } else {
                     window.location.href = '/login';
                 }
             })
             .catch((error) => {
+                console.log('401 failed');
                 console.log('Error2', error);
             })
     }

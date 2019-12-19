@@ -1,33 +1,21 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import API from '../utilities/api';
 import Switch from 'react-switch';
 import cookie from 'js-cookie';
-import { validateEmail, validatePassword } from '../utilities/validation';
+import { userLogIn } from '../actions/user';
 
 const SigninForm = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
     const [signInError, setSignInError] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
 
-    const { t } = useTranslation();
+    const { translations } = props;
     const url = `${API}/user/login`;
-
-    const onEmailChange = ({ target }) => {
-        const { value } = target;
-        setEmailError(validateEmail(value));
-        setEmail(value);
-    };
-
-    const onPasswordChange = ({ target }) => {
-        const { value } = target;
-        setPasswordError(validatePassword(value));
-        setPassword(value);
-    };
+    const history = useHistory();
 
     const signIn = async (e) => {
         e.preventDefault();
@@ -41,6 +29,10 @@ const SigninForm = (props) => {
         if (response.data.error === 0) {
             cookie.set('Access token', response.data.access_token);
             cookie.set('Refresh token', response.data.refresh_token);
+            localStorage.setItem('username', response.data.username);
+            sessionStorage.setItem('tokenIssueTime', Date.now());
+            props.dispatch(userLogIn(response.data.username));
+            history.push('/');
         } else if (response.data.error === 1) {
             console.log('Email error');
         } else if (response.data.error === 2) {
@@ -59,31 +51,29 @@ const SigninForm = (props) => {
     return (
         <form className='authentication__form' onSubmit={signIn} method='post'>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='email'>{t('Email')}</label>
+                <label className='authentication__form--group-text' htmlFor='email'>{translations.form_login_email}</label>
                 <input 
                     className='authentication__form--group-input' 
                     type='email' 
                     name='email'
                     value={email}
-                    onChange={onEmailChange} 
+                    onChange={(e) => setEmail(e.target.value)}
                 />
-                <span className='authentication__form--error'>{emailError}</span>
             </div>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='password'>{t('Password')}</label>
+                <label className='authentication__form--group-text' htmlFor='password'>{translations.form_login_password}</label>
                 <input 
                     className='authentication__form--group-input' 
                     type='password' 
                     name='password'
                     value={password}
-                    onChange={onPasswordChange} 
+                    onChange={(e) => setPassword(e.target.value)}
                 />
-                <span className='authentication__form--error'>{passwordError}</span>
             </div>
             <div className='authentication__form--controls'>
-                <a className='authentication__form--controls-forgot'>Forgot password?</a>
+                <a className='authentication__form--controls-forgot'>{translations.form_login_forgot_password}</a>
                 <div className='authentication__form--controls-remember'>
-                    <label className='authentication__form--controls-remember_text' htmlFor='remember'>Remember me</label>
+                    <label className='authentication__form--controls-remember_text' htmlFor='remember'>{translations.form_login_remember_me}</label>
                     <Switch
                         id='remember'
                         className='authentication__form--controls-remember_switch'
@@ -104,9 +94,16 @@ const SigninForm = (props) => {
             <div className='authentication__form--errors'>
                 <span>{signInError}</span>
             </div>
-            <button type='submit' className='button button-blue margin-top-small'>Sign in</button>
+            <button type='submit' className='button button-blue margin-top-small'>{translations.form_login_btn_login}</button>
         </form>
     );
+};
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+        translations: state.language.translations
+    }
 }
 
-export default SigninForm;
+export default connect(mapStateToProps)(SigninForm);

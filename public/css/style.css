@@ -193,6 +193,13 @@ body {
       opacity: .3; }
     .header__top--signin {
       text-transform: uppercase; }
+    .header__top--logout-username {
+      font-weight: 500; }
+    .header__top--logout-text {
+      text-transform: uppercase;
+      cursor: pointer; }
+    .header__top--logout > * {
+      padding-left: 7rem; }
   .header__bottom {
     display: flex;
     justify-content: space-between;

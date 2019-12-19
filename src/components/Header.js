@@ -1,20 +1,40 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { NavLink, Link, useHistory } from 'react-router-dom';
+import cookie from 'js-cookie';
 
 import LanguageForm from './LanguageForm';
 import Clock from './helpers/Clock';
-import { useTranslation } from 'react-i18next';
+import isAuthenticated from '../utilities/isAuthenticated';
+import { userLogOut } from '../actions/user';
 
-const Header = () => {
-    const { t } = useTranslation();
+const Header = (props) => {
+    const history = useHistory();
+    const { user, translations } = props;
+
+    const handleLogOut = () => {
+        cookie.remove('Access token');
+        cookie.remove('Refresh token');
+        props.dispatch(userLogOut());
+        history.push('/login');
+    };
 
     return (
         <header id='header' className='header'>
             <div className='header__top'>
                 <LanguageForm />
-                <div className='header__top--signin'>
-                    <Link className='header-text' to='/login'>{t('Sign in')}</Link>
-                </div>
+                {
+                    isAuthenticated(sessionStorage.getItem('tokenIssueTime'))
+                    ?
+                    <div className='header__top--logout'>
+                        <Link className='header-text header__top--logout-username' to='/me'>{user.username}</Link>
+                        <a className='header-text header__top--logout-text' onClick={handleLogOut}>{translations.navbar_logout}</a>
+                    </div>
+                    :
+                    <div className='header__top--signin'>
+                        <Link className='header-text' to='/login'>{translations.navbar_sign_in}</Link>
+                    </div>
+                }
             </div>
             <div className='header__bottom'>
                 <Link to='/'>
@@ -23,23 +43,33 @@ const Header = () => {
                 <div className='header__bottom--right'>
                     <span className='header-text'>+1 (425) 9546058</span>
                     <a className='header-text'>
-                        <span className='padding-small-right'>{t('Other')}</span>
+                        <span className='padding-small-right'>{translations.region_name_ww}</span>
                         <i className="fas fa-angle-down"></i>
                     </a>
                     <Clock />
                 </div>
             </div>
             <div className='header__nav'>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>Find vehicle</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>Calculator</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>Auctions</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>How to buy</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>For wholesalers</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>Help</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>Contacts</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_find_vehicles}</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_calc}</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_auctions}</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_how_to_buy}</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_wholesaler}</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_help}</NavLink>
+                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_contacts}</NavLink>
             </div>
         </header>
     );
 };
 
-export default Header;
+const mapStateToProps = (state) => {
+    return {
+        user: {
+            username: state.user.username || localStorage.getItem('username'),
+            tokenIssueTime: state.user.tokenIssueTime || sessionStorage.getItem('tokenIssueTime')
+        },
+        translations: state.language.translations
+    }
+}
+
+export default connect(mapStateToProps)(Header);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CountrySelect from './helpers/CountrySelect';
-import { useTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import API from '../utilities/api';
 import { validateEmail, validatePassword, validateConfirmPassword } from '../utilities/validation';
@@ -15,8 +15,8 @@ const RegisterForm = (props) => {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
+    const { translations } = props;
     const isDisabled = (email && password && confirmPassword) ? (!!emailError || !!passwordError || !!confirmPasswordError) : true;
-    const { t } = useTranslation();
     const url = `${API}/user/register`;
 
     const onEmailChange = ({ target }) => {
@@ -65,7 +65,7 @@ const RegisterForm = (props) => {
     return (
         <form className='authentication__form' onSubmit={register}>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='firstName'>{t('First name')}</label>
+                <label className='authentication__form--group-text' htmlFor='firstName'>{translations.form_login_first_name}</label>
                 <input 
                     className='authentication__form--group-input' 
                     type='text' 
@@ -74,7 +74,7 @@ const RegisterForm = (props) => {
                 />
             </div>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='lastName'>{t('Last name')}</label>
+                <label className='authentication__form--group-text' htmlFor='lastName'>{translations.form_login_last_name}</label>
                 <input 
                     className='authentication__form--group-input' 
                     type='text' 
@@ -83,7 +83,7 @@ const RegisterForm = (props) => {
                 />
             </div>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='email'>{t('Email')}</label>
+                <label className='authentication__form--group-text' htmlFor='email'>{translations.form_login_email}</label>
                 <input 
                 className={
                     !!emailError
@@ -100,7 +100,7 @@ const RegisterForm = (props) => {
                 <CountrySelect />
             </div>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='password'>{t('Password')}</label>
+                <label className='authentication__form--group-text' htmlFor='password'>{translations.form_login_password}</label>
                 <input 
                 className={
                     !!passwordError 
@@ -114,7 +114,7 @@ const RegisterForm = (props) => {
                 <span className='authentication__form--error'>{passwordError}</span>
             </div>
             <div className='authentication__form--group'>
-                <label className='authentication__form--group-text' htmlFor='confirmPassword'>{t('Confirm password')}</label>
+                <label className='authentication__form--group-text' htmlFor='confirmPassword'>{translations.form_login_confirm_password}</label>
                 <input 
                     className={
                         !!confirmPasswordError 
@@ -135,9 +135,13 @@ const RegisterForm = (props) => {
                     <a className='authentication__form--terms_link'>Privacy policy</a>
             </div>
 
-            <button disabled={isDisabled} className='button button-blue margin-top-medium' type='submit'>{t('Sign up')}</button>
+            <button disabled={isDisabled} className='button button-blue margin-top-medium' type='submit'>{translations.form_login_btn_signup}</button>
         </form>
     );
 };
 
-export default RegisterForm;
+const mapStateToProps = (state) => ({
+    translations: state.language.translations
+});
+
+export default connect(mapStateToProps)(RegisterForm);

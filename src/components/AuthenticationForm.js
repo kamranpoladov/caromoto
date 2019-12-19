@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import SigninForm from './SigninForm';
 import RegisterForm from './RegisterForm';
 import { useTranslation } from 'react-i18next';
 
-const AuthenticationForm = () => {
+const AuthenticationForm = (props) => {
     const [tab, setTab] = useState('signin');
+
+    const { translations } = props;
 
     const { t } = useTranslation();
 
@@ -23,7 +26,7 @@ const AuthenticationForm = () => {
                     }
                     onClick={() => setTab('signin')}
                     >
-                    {t('Sign in')}
+                    {translations.form_login_tab_signin}
                     <div className={
                         tab === 'signin'
                         ? 'authentication__tabs--signin__border authentication__tabs--signin__border-a'
@@ -39,7 +42,7 @@ const AuthenticationForm = () => {
                     }
                     onClick={() => setTab('register')}
                     >
-                    {t('Register')}
+                    {translations.form_login_tab_register}
                     <div className={
                         tab === 'register'
                         ? 'authentication__tabs--register__border authentication__tabs--register__border-a'
@@ -55,4 +58,8 @@ const AuthenticationForm = () => {
     );
 };
 
-export default AuthenticationForm;
+const mapStateToProps = (state) => ({
+    translations: state.language.translations
+});
+
+export default connect(mapStateToProps)(AuthenticationForm);

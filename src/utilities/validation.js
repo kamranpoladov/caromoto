@@ -1,12 +1,13 @@
 import validator from 'validator';
+import store from '../store/configureStore';
 
 export const validateEmail = (email) => {
     if (validator.isEmail(email)) {
         return '';
     } else if (!email) {
-        return 'Please enter your email address.';
+        return store.getState().language.translations.validation_email_requried;
     } else {
-        return 'Invalid email format';
+        return store.getState().language.translations.validation_email_invalid;
     }
 };
 
@@ -14,7 +15,7 @@ export const validatePassword = (password) => {
     if (validator.isLength(password, {min: 6, max: undefined}))  {
         return '';
     } else {
-        return 'The password must be at least 6 characters long.';
+        return store.getState().language.translations.validation_password_length
     }
 };
 
@@ -22,6 +23,6 @@ export const validateConfirmPassword = (password, confirm) => {
     if (validator.equals(password, confirm)) {
         return '';
     } else {
-        return 'The password and confirmation password do not match.';
+        return store.getState().language.translations.validation_password_confirmation;
     }
 };

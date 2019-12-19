@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n';
-import axios from 'axios';
-import cookies from 'js-cookie';
-import './middleware/axiosMiddleware';
+import { Provider } from 'react-redux';
+import AppRouter from './routers/AppRouter';
+import store from './store/configureStore';
+import getLocales from './utilities/getLocales';
+import loadInitTranslations from './utilities/loadInitTranslations';
 
+import './middleware/axiosMiddleware';
 import '../public/css/style.css';
 
-import AppRouter from './routers/AppRouter';
+getLocales(store);
+loadInitTranslations(store);
 
 const app = (
-    <I18nextProvider i18n={i18n}>
+    <Provider store={store}>
         <AppRouter />
-    </I18nextProvider>
+    </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('app'));

@@ -35,6 +35,22 @@
         &--signin {
             text-transform: uppercase;
         }
+
+        &--logout {
+
+            &-username {
+                font-weight: 500;
+            }
+
+            &-text {
+                text-transform: uppercase;
+                cursor: pointer;
+            }
+
+            & > * {
+                padding-left: 7rem;;
+            }
+        }
     }
 
     &__bottom {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink, Link, useHistory } from 'react-router-dom';
 import cookie from 'js-cookie';
+import cookieNames from '../utilities/cookieNames';
 
 import LanguageForm from './LanguageForm';
 import Clock from './helpers/Clock';
@@ -12,8 +13,8 @@ const Header = (props) => {
     const { user, translations } = props;
 
     const handleLogOut = () => {
-        cookie.remove('Access token');
-        cookie.remove('Refresh token');
+        cookie.remove(cookieNames.access);
+        cookie.remove(cookieNames.refresh);
         props.dispatch(userLogOut());
         localStorage.setItem('isLoggedIn', false);
         history.push('/login');

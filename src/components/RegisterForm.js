@@ -6,18 +6,24 @@ import API from '../utilities/api';
 import { validateEmail, validatePassword, validateConfirmPassword } from '../utilities/validation';
 
 const RegisterForm = (props) => {
+    // Sign up fields
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    // Sign up errors
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [registerError, setRegisterError] = useState('');
 
     const { translations } = props;
-    const isDisabled = (email && password && confirmPassword) ? (!!emailError || !!passwordError || !!confirmPasswordError) : true;
+    const isSignUpButtonDisabled = 
+        (email && password && confirmPassword) 
+        ? (!!emailError || !!passwordError || !!confirmPasswordError) 
+        : true;
     const url = `${API}/user/register`;
 
     const onEmailChange = ({ target }) => {
@@ -49,7 +55,6 @@ const RegisterForm = (props) => {
 
         try {
             const response = await axios.post(url, data);
-
             switch (response.data.error) {
                 case 0:
                     props.redirect;
@@ -61,16 +66,15 @@ const RegisterForm = (props) => {
                     setPasswordError(translations.validation_password_length);
                     break;
                 case 3:
-                    setRegisterError(translations.validation_email_already_registered);
-                    console.log('da');
+                    setRegisterError(translations.validation_email_already_registered); // 
                     break;
                 default:
-                    setRegisterError('Oops, something went wrong. Please, try again');
+                    setRegisterError('Oops, something went wrong. Please, try again'); // No translations yet
                     break;
             }
         } catch (error) {
-            console.log(error);
-        }
+            console.log(error); // To be changed in production
+        };
     };
 
     return (
@@ -146,9 +150,15 @@ const RegisterForm = (props) => {
                     <a className='authentication__form--terms_link'>Privacy policy</a>
             </div>
             <div className='authentication__form--errors'>
-                <span>{registerError}</span>
+                {registerError}
             </div>
-            <button disabled={isDisabled} className='button button-blue margin-top-medium' type='submit'>{translations.form_login_btn_signup}</button>
+            <button 
+                disabled={isSignUpButtonDisabled} 
+                className='button button-blue margin-top-medium' 
+                type='submit'
+            >
+                {translations.form_login_btn_signup}
+            </button>
         </form>
     );
 };

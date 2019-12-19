@@ -5,6 +5,7 @@ import axios from 'axios';
 import API from '../utilities/api';
 import Switch from 'react-switch';
 import cookie from 'js-cookie';
+import cookieNames from '../utilities/cookieNames';
 import { userLogIn } from '../actions/user';
 
 const SigninForm = (props) => {
@@ -28,8 +29,8 @@ const SigninForm = (props) => {
             const response = await axios.post(url, data);
             switch (response.data.error) {
                 case 0:
-                    cookie.set('Access token', response.data.access_token);
-                    cookie.set('Refresh token', response.data.refresh_token);
+                    cookie.set(cookieNames.access, response.data.access_token);
+                    cookie.set(cookieNames.refresh, response.data.refresh_token);
                     localStorage.setItem('username', response.data.username);
                     localStorage.setItem('tokenIssueTime', Date.now());
                     localStorage.setItem('isLoggedIn', true);
@@ -48,7 +49,7 @@ const SigninForm = (props) => {
             }
         } catch (error) {
             console.log(error);
-        }
+        };
     }
 
     return (

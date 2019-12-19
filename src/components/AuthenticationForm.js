@@ -10,7 +10,7 @@ const AuthenticationForm = (props) => {
 
     const redirect = () => {
         setTab('signin');
-    }
+    };
 
     return (
         <div className='authentication margin-top-huge'>

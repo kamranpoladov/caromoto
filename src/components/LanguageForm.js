@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setLanguage, loadTranslations, setCookie } from '../actions/language';
 import axios from 'axios';
@@ -7,23 +7,36 @@ import API from '../utilities/api';
 const LanguageForm = (props) => {
     const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('defaultLanguage') || props.language || 'en');
 
-    const handleCurrentLanguageChange = async (lang) => {
-        // Set cookies for server
-        let data = new FormData();
-        data.set('culture', lang);
-        const currentCulture = await axios.post(`${API}/culture/setcurrent`, data);
-        props.dispatch(setCookie(currentCulture.data.cookie_name, currentCulture.data.cookie_value));
+    const setCultureCookiesForServer = async (lang) => {
+        try {
+            let data = new FormData();
+            data.set('culture', lang);
+            const currentCulture = await axios.post(`${API}/culture/setcurrent`, data);
+            props.dispatch(setCookie(currentCulture.data.cookie_name, currentCulture.data.cookie_value));
+        } catch (error) {
+            console.log(error);
+        };
+    };
 
-        // Load and display translations
-        const translations = await axios.get(`${API}/culture/getresource`, {
-            params: {
-                culture: lang
-            }
-        });
-        props.dispatch(loadTranslations(translations.data));
-        props.dispatch(setLanguage(lang));
-        setCurrentLanguage(lang);
-        localStorage.setItem('defaultLanguage', lang);
+    const loadTranslationsToStore = async (lang) => {
+        try {
+            const translations = await axios.get(`${API}/culture/getresource`, {
+                params: {
+                    culture: lang
+                }
+            });
+            props.dispatch(loadTranslations(translations.data));
+            props.dispatch(setLanguage(lang));
+            setCurrentLanguage(lang);
+            localStorage.setItem('defaultLanguage', lang);
+        } catch (error) {
+            console.log(error);
+        };
+    }
+
+    const handleCurrentLanguageChange = async (lang) => {
+        await setCultureCookiesForServer(lang);
+        await loadTranslationsToStore(lang);
     };
 
     return (

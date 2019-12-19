@@ -14,6 +14,7 @@ const RegisterForm = (props) => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [registerError, setRegisterError] = useState('');
 
     const { translations } = props;
     const isDisabled = (email && password && confirmPassword) ? (!!emailError || !!passwordError || !!confirmPasswordError) : true;
@@ -46,19 +47,29 @@ const RegisterForm = (props) => {
         data.set('email', email);
         data.set('password', password);
 
-        const response = await axios.post(url, data);
+        try {
+            const response = await axios.post(url, data);
 
-        if (response.data.error === 0) {
-            console.log('All good');
-            props.redirect();
-        } else if (response.data.error === 1) {
-            console.log('Email error');
-        } else if (response.data.error === 2) {
-            console.log('Password error');
-        } else if (response.data.error === 3) {
-            console.log('Same email');
-        } else if (response.data.error === 4 || response.data.error === 100) {
-            console.log('Internal error');
+            switch (response.data.error) {
+                case 0:
+                    props.redirect;
+                    break;
+                case 1:
+                    setEmailError(translations.validation_email_invalid);
+                    break;
+                case 2:
+                    setPasswordError(translations.validation_password_length);
+                    break;
+                case 3:
+                    setRegisterError(translations.validation_email_already_registered);
+                    console.log('da');
+                    break;
+                default:
+                    setRegisterError('Oops, something went wrong. Please, try again');
+                    break;
+            }
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -134,7 +145,9 @@ const RegisterForm = (props) => {
                     <span className='authentication__form--terms_text'> and </span>
                     <a className='authentication__form--terms_link'>Privacy policy</a>
             </div>
-
+            <div className='authentication__form--errors'>
+                <span>{registerError}</span>
+            </div>
             <button disabled={isDisabled} className='button button-blue margin-top-medium' type='submit'>{translations.form_login_btn_signup}</button>
         </form>
     );

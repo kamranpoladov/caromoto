@@ -11,4 +11,10 @@ export const setLocales = (locales = []) => ({
 export const loadTranslations = (translations) => ({
     type: 'LOAD_TRANSLATIONS',
     translations
+});
+
+export const setCookie = (name, value) => ({
+    type: 'SET_COOKIE',
+    name,
+    value
 })

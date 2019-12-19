@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import SigninForm from './SigninForm';
 import RegisterForm from './RegisterForm';
-import { useTranslation } from 'react-i18next';
 
 const AuthenticationForm = (props) => {
     const [tab, setTab] = useState('signin');
 
     const { translations } = props;
-
-    const { t } = useTranslation();
 
     const redirect = () => {
         setTab('signin');

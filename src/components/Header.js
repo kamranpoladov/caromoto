@@ -5,7 +5,6 @@ import cookie from 'js-cookie';
 
 import LanguageForm from './LanguageForm';
 import Clock from './helpers/Clock';
-import isAuthenticated from '../utilities/isAuthenticated';
 import { userLogOut } from '../actions/user';
 
 const Header = (props) => {
@@ -16,6 +15,7 @@ const Header = (props) => {
         cookie.remove('Access token');
         cookie.remove('Refresh token');
         props.dispatch(userLogOut());
+        localStorage.setItem('isLoggedIn', false);
         history.push('/login');
     };
 
@@ -24,7 +24,7 @@ const Header = (props) => {
             <div className='header__top'>
                 <LanguageForm />
                 {
-                    isAuthenticated(sessionStorage.getItem('tokenIssueTime'))
+                    localStorage.getItem('isLoggedIn') === 'true'
                     ?
                     <div className='header__top--logout'>
                         <Link className='header-text header__top--logout-username' to='/me'>{user.username}</Link>
@@ -66,7 +66,7 @@ const mapStateToProps = (state) => {
     return {
         user: {
             username: state.user.username || localStorage.getItem('username'),
-            tokenIssueTime: state.user.tokenIssueTime || sessionStorage.getItem('tokenIssueTime')
+            isLoggedIn: state.user.isLoggedIn
         },
         translations: state.language.translations
     }

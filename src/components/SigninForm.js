@@ -17,39 +17,42 @@ const SigninForm = (props) => {
     const url = `${API}/user/login`;
     const history = useHistory();
 
-    const signIn = async (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
 
         let data = new FormData();
         data.set('email', email);
         data.set('password', password);
 
-        const response = await axios.post(url, data);
-
-        if (response.data.error === 0) {
-            cookie.set('Access token', response.data.access_token);
-            cookie.set('Refresh token', response.data.refresh_token);
-            localStorage.setItem('username', response.data.username);
-            sessionStorage.setItem('tokenIssueTime', Date.now());
-            props.dispatch(userLogIn(response.data.username));
-            history.push('/');
-        } else if (response.data.error === 1) {
-            console.log('Email error');
-        } else if (response.data.error === 2) {
-            console.log('Password error');
-        } else if (response.data.error === 3) {
-            console.log('User not found');
-        } else if (response.data.error === 4) {
-            console.log('User is blocked');
-        } else if (response.data.error === 5) {
-            setSignInError('Failed to login. Wrong email or password.');
-        } else {
-            console.log('Internal server error');
+        try {
+            const response = await axios.post(url, data);
+            switch (response.data.error) {
+                case 0:
+                    cookie.set('Access token', response.data.access_token);
+                    cookie.set('Refresh token', response.data.refresh_token);
+                    localStorage.setItem('username', response.data.username);
+                    localStorage.setItem('tokenIssueTime', Date.now());
+                    localStorage.setItem('isLoggedIn', true);
+                    props.dispatch(userLogIn(response.data.username));
+                    history.push('/');
+                    break;
+                case 4:
+                    setSignInError(translations.form_login_user_blocked);
+                    break;
+                case 100:
+                    setSignInError(translations.form_login_failed_to_login);
+                    break;
+                default:
+                    setSignInError(translations.form_login_failed_to_login);
+                    break;
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     return (
-        <form className='authentication__form' onSubmit={signIn} method='post'>
+        <form className='authentication__form' onSubmit={handleSignIn} method='post'>
             <div className='authentication__form--group'>
                 <label className='authentication__form--group-text' htmlFor='email'>{translations.form_login_email}</label>
                 <input 

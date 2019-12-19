@@ -1,7 +1,9 @@
 const languageReducerDefaultState = {
     language: localStorage.getItem('defaultLanguage') || '',
     locales: [],
-    translations: {}
+    translations: {},
+    cookieName: '',
+    cookieValue: ''
 };
 
 export default (state = languageReducerDefaultState, action) => {
@@ -20,6 +22,12 @@ export default (state = languageReducerDefaultState, action) => {
             return {
                 ...state,
                 translations: action.translations
+            };
+        case 'SET_COOKIE':
+            return {
+                ...state,
+                cookieName: action.name,
+                cookieValue: action.value
             }
         default:
             return state;

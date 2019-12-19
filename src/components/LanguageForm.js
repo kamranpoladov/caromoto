@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setLanguage, loadTranslations } from '../actions/language';
+import { setLanguage, loadTranslations, setCookie } from '../actions/language';
 import axios from 'axios';
 import API from '../utilities/api';
 
@@ -8,6 +8,13 @@ const LanguageForm = (props) => {
     const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('defaultLanguage') || props.language || 'en');
 
     const handleCurrentLanguageChange = async (lang) => {
+        // Set cookies for server
+        let data = new FormData();
+        data.set('culture', lang);
+        const currentCulture = await axios.post(`${API}/culture/setcurrent`, data);
+        props.dispatch(setCookie(currentCulture.data.cookie_name, currentCulture.data.cookie_value));
+
+        // Load and display translations
         const translations = await axios.get(`${API}/culture/getresource`, {
             params: {
                 culture: lang

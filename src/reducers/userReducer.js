@@ -1,6 +1,6 @@
 const userReducerDefaultState = {
     username: '',
-    tokenIssueTime: ''
+    tokenIssueTime: '',
 };
 
 export default (state = userReducerDefaultState, action) => {
@@ -9,7 +9,7 @@ export default (state = userReducerDefaultState, action) => {
             return {
                 ...state,
                 username: action.username,
-                tokenIssueTime: Date.now()
+                tokenIssueTime: Date.now(),
             }
         case 'USER_LOGOUT':
             return {

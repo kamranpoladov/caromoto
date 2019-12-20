@@ -57,7 +57,7 @@ const RegisterForm = (props) => {
             const response = await axios.post(url, data);
             switch (response.data.error) {
                 case 0:
-                    props.redirect;
+                    props.redirect();
                     break;
                 case 1:
                     setEmailError(translations.validation_email_invalid);
@@ -66,7 +66,7 @@ const RegisterForm = (props) => {
                     setPasswordError(translations.validation_password_length);
                     break;
                 case 3:
-                    setRegisterError(translations.validation_email_already_registered); // 
+                    setRegisterError(translations.validation_email_already_registered);
                     break;
                 default:
                     setRegisterError('Oops, something went wrong. Please, try again'); // No translations yet

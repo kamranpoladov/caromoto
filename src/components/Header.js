@@ -63,14 +63,11 @@ const Header = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        user: {
-            username: state.user.username || localStorage.getItem('username'),
-            isLoggedIn: state.user.isLoggedIn
-        },
-        translations: state.language.translations
-    }
-}
+const mapStateToProps = (state) => ({
+    user: {
+        username: state.user.username || localStorage.getItem('username')
+    },
+    translations: state.language.translations
+});
 
 export default connect(mapStateToProps)(Header);

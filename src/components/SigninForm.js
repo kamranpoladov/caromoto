@@ -103,11 +103,9 @@ const SigninForm = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.user,
-        translations: state.language.translations
-    }
-}
+const mapStateToProps = (state) => ({
+    user: state.user,
+    translations: state.language.translations
+});
 
 export default connect(mapStateToProps)(SigninForm);

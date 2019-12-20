@@ -18,7 +18,7 @@ service.register({
         config.headers.Authorization = `Bearer ${token}`;
 
         isAuthenticated(localStorage.getItem('tokenIssueTime'))
-        ? localStorage.setItem('isLoggedIn', true) 
+        ? localStorage.setItem('isLoggedIn', true)
         : localStorage.setItem('isLoggedIn', false);
 
         return config;
@@ -41,7 +41,6 @@ service.register({
                     default:
                         localStorage.setItem('isLoggedIn', false);
                         store.dispatch(userLogOut());
-                        window.location.href = '/login';
                         break;
                 }
             })

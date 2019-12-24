@@ -224,11 +224,18 @@ body {
         display: none; } }
     .header__top--logout-username {
       font-weight: 500; }
+      @media (max-width: 56.25em) {
+        .header__top--logout-username {
+          margin-bottom: 2rem; } }
     .header__top--logout-text {
       text-transform: uppercase;
       cursor: pointer; }
     .header__top--logout > * {
       padding-left: 7rem; }
+      @media (max-width: 56.25em) {
+        .header__top--logout > * {
+          display: inline-block;
+          padding: 0; } }
   .header__bottom {
     display: flex;
     justify-content: space-between;
@@ -292,9 +299,9 @@ body {
       .nav__list-wrap {
         display: block;
         position: fixed;
-        top: 7rem;
-        right: -50rem;
-        width: 25vw;
+        top: 0;
+        right: -40rem;
+        width: 40vw;
         height: 100%;
         transition: right 1s; } }
   .nav__list {
@@ -312,22 +319,33 @@ body {
     @media (max-width: 56.25em) {
       .nav--item {
         display: inline-block;
+        text-align: center;
         width: 100%;
         z-index: 999;
         padding: 2rem 2rem;
         border-bottom: 1px solid black;
-        border-left: 1px solid black; } }
+        border-left: 2px solid black; } }
     .nav--item-last {
       padding-right: 0; }
+      @media (max-width: 56.25em) {
+        .nav--item-last-small {
+          border-bottom: 2px solid black; } }
     .nav--item > a {
       text-decoration: none;
       color: black;
       text-transform: uppercase;
-      font-weight: bold; }
-  .nav:hover .nav--item:not(:hover) {
+      font-weight: bold;
+      transition: opacity .4s; }
+      @media (max-width: 56.25em) {
+        .nav--item > a {
+          font-size: 2rem; } }
+      @media (max-width: 37.5em) {
+        .nav--item > a {
+          font-size: 1.1rem; } }
+  .nav:hover .nav--item a:not(:hover) {
     opacity: .3; }
     @media (max-width: 75em) {
-      .nav:hover .nav--item:not(:hover) {
+      .nav:hover .nav--item a:not(:hover) {
         opacity: 1; } }
   .nav--wrap-logout {
     display: none; }
@@ -349,3 +367,14 @@ body {
           height: .3rem;
           background: black;
           margin: 1vw 0; } }
+  .nav__close-btn {
+    display: none; }
+    @media (max-width: 56.25em) {
+      .nav__close-btn {
+        display: block;
+        position: absolute;
+        top: -5rem;
+        right: 42vw;
+        font-size: 3rem;
+        cursor: pointer;
+        transition: top 1s; } }

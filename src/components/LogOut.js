@@ -21,12 +21,17 @@ const LogOut = (props) => {
                 localStorage.getItem('isLoggedIn') === 'true'
                 ?
                 <div className='header__top--logout'>
-                    <Link className='header-text header__top--logout-username' to='/me'>{user.username}</Link>
-                    <Link className='header-text header__top--logout-text' to='/login' onClick={handleLogOut}>{translations.navbar_logout}</Link>
+                    <Link onClick={props.handleSideMenu} className='header-text header__top--logout-username' to='/me'>{user.username}</Link>
+                    <Link className='header-text header__top--logout-text' to='/login' 
+                        onClick={() => {
+                            handleLogOut();
+                            props.handleSideMenu();
+                        }}
+                    >{translations.navbar_logout}</Link>
                 </div>
                 :
                 <div className='header__top--signin'>
-                    <Link className='header-text' to='/login'>{translations.navbar_sign_in}</Link>
+                    <Link onClick={props.handleSideMenu} className='header-text' to='/login'>{translations.navbar_sign_in}</Link>
                 </div>
             }
         </div>

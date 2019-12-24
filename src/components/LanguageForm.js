@@ -63,10 +63,14 @@ const LanguageForm = (props) => {
                 ))
             }
             </ul>
-            <select id='lang-select' className='lang-form__select' onChange={() => {
-                const sel = document.getElementById('lang-select');
-                handleCurrentLanguageChange(sel.value);
-            }}>
+            <select 
+                id='lang-select' 
+                className='lang-form__select' 
+                onChange={() => {
+                    const sel = document.getElementById('lang-select');
+                    handleCurrentLanguageChange(sel.value);
+                }}
+            >
             {
                 props.language.locales.map((locale) => (
                     <option

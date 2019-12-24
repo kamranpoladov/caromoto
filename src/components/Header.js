@@ -1,24 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink, Link } from 'react-router-dom';
-import cookie from 'js-cookie';
-import cookieNames from '../utilities/cookieNames';
 
 import NavBar from './NavBar';
 import LanguageForm from './LanguageForm';
 import Clock from './helpers/Clock';
-import { userLogOut } from '../actions/user';
 import LogOut from './LogOut';
 
 const Header = (props) => {
-    const { user, translations } = props;
-
-    const handleLogOut = () => {
-        cookie.remove(cookieNames.access);
-        cookie.remove(cookieNames.refresh);
-        props.dispatch(userLogOut());
-        localStorage.setItem('isLoggedIn', false);
-    };
+    const { translations } = props;
 
     return (
         <header id='header' className='header'>
@@ -45,9 +34,6 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    user: {
-        username: state.user.username || localStorage.getItem('username')
-    },
     translations: state.language.translations
 });
 

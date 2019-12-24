@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import API from '../utilities/api';
-import Switch from 'react-switch';
 import cookie from 'js-cookie';
 import cookieNames from '../utilities/cookieNames';
 import { userLogIn } from '../actions/user';
@@ -12,7 +11,6 @@ const SigninForm = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [signInError, setSignInError] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
 
     const { translations } = props;
     const url = `${API}/user/login`;

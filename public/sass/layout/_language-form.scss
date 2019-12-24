@@ -1,0 +1,34 @@
+.lang-form {
+    &__list {
+        list-style-type: none;
+
+        @include respond(tab-port) {
+            display: none;
+        }
+    }
+
+    &__select {
+        display: none;
+
+        @include respond(tab-port) {
+            display: block;
+            border: none;
+            font-size: 2rem;
+            outline: none;
+        }
+    }
+
+    &__item {
+        float: left;
+        transition: all .4s;
+        cursor: pointer;
+    }
+
+    &__active {
+        font-weight: 600;
+    }
+
+    &:hover &__item:not(:hover) {
+        opacity: .3;
+    }
+}

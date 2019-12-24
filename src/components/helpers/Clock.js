@@ -23,10 +23,12 @@ export default class Clock extends React.Component {
 
     render() {
         return (
+            <div className='header-clock'>
             <a className='header-text'>
-                <span className='padding-small-right'>{this.state.timeString}</span>
-                <i className="fas fa-angle-down"></i>
-            </a>
+            <span className='padding-small-right'>{this.state.timeString}</span>
+            <i className="fas fa-angle-down header-clock-icon"></i>
+        </a>
+            </div>
         );
     };
 }

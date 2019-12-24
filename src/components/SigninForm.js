@@ -78,21 +78,6 @@ const SigninForm = (props) => {
                 <a className='authentication__form--controls-forgot'>{translations.form_login_forgot_password}</a>
                 <div className='authentication__form--controls-remember'>
                     <label className='authentication__form--controls-remember_text' htmlFor='remember'>{translations.form_login_remember_me}</label>
-                    <Switch
-                        id='remember'
-                        className='authentication__form--controls-remember_switch'
-                        onChange={() => setRememberMe(!rememberMe)} 
-                        checked={rememberMe} 
-                        uncheckedIcon={false} 
-                        checkedIcon={false} 
-                        offColor='#CBCBCB'
-                        onColor='#86d3ff'
-                        onHandleColor='#3497FD'
-                        offHandleColor='#868686'
-                        handleDiameter={15}
-                        height={10}
-                        width={25} 
-                    />
                 </div>
             </div>
             <div className='authentication__form--errors'>

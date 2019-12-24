@@ -8,7 +8,7 @@ export const PublicRoute = ({
 }) => (
     <Route {...rest} component={(props) => (
         isAuthenticated(localStorage.getItem('tokenIssueTime'))
-        ? 
+        ?
         (
             <Redirect to='/' />
         )

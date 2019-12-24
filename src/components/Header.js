@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink, Link, useHistory } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import cookie from 'js-cookie';
 import cookieNames from '../utilities/cookieNames';
 
+import NavBar from './NavBar';
 import LanguageForm from './LanguageForm';
 import Clock from './helpers/Clock';
 import { userLogOut } from '../actions/user';
+import LogOut from './LogOut';
 
 const Header = (props) => {
-    const history = useHistory();
     const { user, translations } = props;
 
     const handleLogOut = () => {
@@ -17,48 +18,28 @@ const Header = (props) => {
         cookie.remove(cookieNames.refresh);
         props.dispatch(userLogOut());
         localStorage.setItem('isLoggedIn', false);
-        history.push('/login');
     };
 
     return (
         <header id='header' className='header'>
             <div className='header__top'>
                 <LanguageForm />
-                {
-                    localStorage.getItem('isLoggedIn') === 'true'
-                    ?
-                    <div className='header__top--logout'>
-                        <Link className='header-text header__top--logout-username' to='/me'>{user.username}</Link>
-                        <a className='header-text header__top--logout-text' onClick={handleLogOut}>{translations.navbar_logout}</a>
-                    </div>
-                    :
-                    <div className='header__top--signin'>
-                        <Link className='header-text' to='/login'>{translations.navbar_sign_in}</Link>
-                    </div>
-                }
+                <div className='header__top--wrap-logout'>
+                    <LogOut />
+                </div>
             </div>
             <div className='header__bottom'>
-                <Link to='/'>
-                    <img className='header__bottom--logo' src={'https://caromoto.com/img/logo.svg'} />
-                </Link>
+                <img className='header__bottom--logo' src={'https://caromoto.com/img/logo.svg'} />
                 <div className='header__bottom--right'>
-                    <span className='header-text'>+1 (425) 9546058</span>
-                    <a className='header-text'>
+                    <span className='header-text header__bottom--right_number'>+1 (425) 9546058</span>
+                    <a className='header-text header__bottom--right_country'>
                         <span className='padding-small-right'>{translations.region_name_ww}</span>
                         <i className="fas fa-angle-down"></i>
                     </a>
                     <Clock />
                 </div>
             </div>
-            <div className='header__nav'>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_find_vehicles}</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_calc}</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_auctions}</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_how_to_buy}</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_wholesaler}</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_help}</NavLink>
-                <NavLink className='header__nav--item' activeClassName='header__nav--item-a' to='/'>{translations.navbar_contacts}</NavLink>
-            </div>
+            <NavBar translations={translations} />
         </header>
     );
 };

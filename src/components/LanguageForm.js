@@ -40,23 +40,49 @@ const LanguageForm = (props) => {
     };
 
     return (
-        <div className='header__top--lang-form'>
-        {
-            props.language.locales.map((locale) => (
-                <a
-                    key={locale.code}
-                    onClick={() => {
-                        handleCurrentLanguageChange(locale.name);
-                    }}
-                    className={
-                        currentLanguage === locale.name 
-                        ? 'header__top--lang-form__item header__top--lang-form__active header-text header__top--lang-form__item padding-small-right-left' 
-                        : 'header__top--lang-form__item header-text padding-small-right-left'
-                    }>
+        <div className='lang-form'>
+            <ul className='lang-form__list'>
+            {
+                props.language.locales.map((locale) => (
+                    <li 
+                        className={
+                            currentLanguage === locale.name 
+                            ? 'lang-form__item lang-form__active header-text lang-form__item padding-small-right-left' 
+                            : 'lang-form__item header-text padding-small-right-left'
+                        }
+                    >
+                    <a
+                        key={locale.code + '_li'}
+                        onClick={() => {
+                            handleCurrentLanguageChange(locale.name);
+                        }}
+                        >
+                        {locale.code}
+                    </a>
+                    </li>
+                ))
+            }
+            </ul>
+            <select id='lang-select' className='lang-form__select' onChange={() => {
+                const sel = document.getElementById('lang-select');
+                handleCurrentLanguageChange(sel.value);
+            }}>
+            {
+                props.language.locales.map((locale) => (
+                    <option
+                        selected={
+                            currentLanguage === locale.name 
+                            ? 'selected' 
+                            : ''
+                        }
+                        key={locale.code + '_option'}
+                        value={locale.name}
+                    >
                     {locale.code}
-                </a>
-            ))
-        }
+                    </option>
+                ))
+            }
+            </select>
         </div>
     )
 };

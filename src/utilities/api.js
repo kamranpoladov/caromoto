@@ -1,1 +1,1 @@
-export default 'https://cors-anywhere.herokuapp.com/https://caromoto.com/api';
+export default 'https://caromoto.com/api';

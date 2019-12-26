@@ -234,7 +234,7 @@ body {
       padding-left: 7rem; }
       @media (max-width: 56.25em) {
         .header__top--logout > * {
-          display: inline-block;
+          display: block;
           padding: 0; } }
   .header__bottom {
     display: flex;
@@ -299,11 +299,10 @@ body {
       .nav__list-wrap {
         display: block;
         position: fixed;
-        top: 0;
-        right: -40rem;
+        top: -70rem;
+        right: 0;
         width: 40vw;
-        height: 100%;
-        transition: right 1s; } }
+        transition: top 1s; } }
   .nav__list {
     list-style-type: none; }
     @media (max-width: 56.25em) {

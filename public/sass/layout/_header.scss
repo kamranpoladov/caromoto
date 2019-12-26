@@ -61,7 +61,7 @@
                 padding-left: 7rem;
 
                 @include respond(tab-port) {
-                    display: inline-block;
+                    display: block;
                     padding: 0;
                 }
             }

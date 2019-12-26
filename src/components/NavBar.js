@@ -8,12 +8,12 @@ const NavBar = (props) => {
     const handleSideMenu = () => {
         if (window.innerWidth < 900) {
             if (isOpen) {
-                document.getElementById('nav').style.right = '-50rem';
+                document.getElementById('nav').style.top = '-70rem';
                 document.getElementById('toggle').style.right = '4vw';
                 document.getElementById('close').style.top = '-5rem';
                 setIsOpen(false);
             } else {
-                document.getElementById('nav').style.right = '0';
+                document.getElementById('nav').style.top = '0';
                 document.getElementById('toggle').style.right = '-10rem';
                 document.getElementById('close').style.top = '0';
                 setIsOpen(true);
